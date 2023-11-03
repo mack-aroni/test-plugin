@@ -1,5 +1,5 @@
 name: TestPlugin
-version: 1.1.2
+version: 1.2.0
 main: me.mackaroni.testplugin.TestPlugin
 author: mack-aroni
 description: Test Plugin
@@ -9,3 +9,6 @@ commands:
   feed:
     description: Replenish player hunger
     usage: /feed
+  gamble:
+    description: Gamble with tokens for rewards
+    usage: /gamble

@@ -89,7 +89,7 @@ public class Feed implements CommandExecutor {
             clickConfirmation.put(playerUUID, true);
             return true;
         }
-        // error handling
+        // incorrect usage
         player.sendMessage(Component.text("Usage: /feed").color(NamedTextColor.RED));
         return true;
     }

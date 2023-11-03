@@ -16,7 +16,7 @@ public class JoinLeaveListener implements Listener {
         Player sender = event.getPlayer();
         String playerName = sender.getName();
         int ping = sender.getPing();
-        // custom header and footer
+        // custom tab header and footer(which shows the players ping)
         final Component header = Component.text("My Cool Server", NamedTextColor.BLUE);
         final Component footer = Component.text("Ping | "+ping);
         sender.sendPlayerListHeaderAndFooter(header, footer);
@@ -40,16 +40,6 @@ public class JoinLeaveListener implements Listener {
                         .color(NamedTextColor.GREEN));
         // sends joinMessage to joining player
         event.getPlayer().sendMessage(joinMessage);
-    }
-
-    public void setCustomTabList(Player player, String customPlayerName, int ping) {
-        Component tabList = Component.text()
-                .append(Component.text("Custom Tab List Header", NamedTextColor.GREEN))
-                .append(Component.newline())
-                .append(Component.text(customPlayerName, NamedTextColor.AQUA))
-                .append(Component.text(" | Ping: " + ping, NamedTextColor.GRAY))
-                .build();
-        player.playerListName(tabList);
     }
 
     @EventHandler
