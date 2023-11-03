@@ -18,6 +18,7 @@ public final class TestPlugin extends JavaPlugin {
         Objects.requireNonNull(getCommand("feed")).setExecutor(new Feed());
         // gamble command (uses a lotto spinner/ need more polish)
         Objects.requireNonNull(getCommand("gamble")).setExecutor(new Gamble());
+        getServer().getPluginManager().registerEvents(new Gamble(), this);
     }
 
     @Override

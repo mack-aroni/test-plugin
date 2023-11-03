@@ -10,6 +10,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -21,7 +24,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Gamble implements CommandExecutor {
+public class Gamble implements CommandExecutor, Listener {
 
     List<Inventory> invs = new ArrayList<Inventory>();
     public static ItemStack[] contents;
@@ -34,20 +37,27 @@ public class Gamble implements CommandExecutor {
             sender.sendMessage("Only players can use this command");
             return true;
         }
+        // incorrect usage
+        if (args.length > 0) {
+            // incorrect usage
+            player.sendMessage(Component.text("Usage: /gamble").color(NamedTextColor.RED));
+            return true;
+        }
         // defines what item is the gamble "token"
-        ItemStack token = new ItemStack(Material.DIAMOND);
+        Material token = Material.DIAMOND;
+        ItemStack tokenFee = new ItemStack(token);
         // amount of token needed
-        int x = 3;
-        token.setAmount(x);
+        int amount = 3;
+        tokenFee.setAmount(amount);
         // check if playerHand has token in proper amount or greater
-        if (player.getInventory().getItemInMainHand().isSimilar(token)) {
-            player.getInventory().removeItem(token);
-            // spin the wheel
+        if (player.getInventory().getItemInMainHand().isSimilar(tokenFee)) {
+            // remove token cost and spin
+            player.getInventory().removeItem(tokenFee);
             spin(player);
         }
         // doesn't have proper amount of token/s
         else {
-            player.sendMessage(Component.text("You need "+x+" tokens to gamble!").color(NamedTextColor.RED));
+            player.sendMessage(Component.text("You need "+amount+" "+token+" to gamble!").color(NamedTextColor.RED));
         }
         return true;
     }
@@ -76,7 +86,7 @@ public class Gamble implements CommandExecutor {
         // cosmetic center "bars"
         ItemStack item = new ItemStack(Material.END_ROD);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("|").color(NamedTextColor.DARK_GRAY));
+        meta.displayName(Component.text(""));
         item.setItemMeta(meta);
         inv.setItem(4, item);
         inv.setItem(22, item);
@@ -117,10 +127,18 @@ public class Gamble implements CommandExecutor {
                         done = true;
                         new BukkitRunnable() {
                             public void run() {
+                                // gives reward to player
                                 ItemStack item = inv.getItem(13);
                                 assert item != null;
                                 player.getInventory().addItem(item);
-                                player.updateInventory();
+                                // reward message
+                                if (item.getAmount() == 1) {
+                                    player.sendMessage(Component.text("You won a "+item.getType()+"!"));
+                                }
+                                else {
+                                    player.sendMessage(Component.text("You won "+item.getAmount()+" "+item.getType()+"s!"));
+                                }
+                                //player.updateInventory();
                                 player.closeInventory();
                                 cancel();
                             }
@@ -130,6 +148,15 @@ public class Gamble implements CommandExecutor {
                 }
             }
         }.runTaskTimer(TestPlugin.getPlugin(TestPlugin.class), 0, 1);
+    }
+
+    @EventHandler
+    public void onClick(InventoryClickEvent event) {
+        // only triggers for inventories in invs
+        if (!invs.contains(event.getInventory())) {
+            return;
+        }
+        event.setCancelled(true);
     }
 
 }
