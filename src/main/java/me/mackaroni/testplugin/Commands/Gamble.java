@@ -26,7 +26,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Gamble implements CommandExecutor, Listener {
 
-    List<Inventory> invs = new ArrayList<Inventory>();
+    List<Inventory> invs = new ArrayList<>();
     public static ItemStack[] contents;
     private int itemIndex = 0;
 
@@ -150,6 +150,7 @@ public class Gamble implements CommandExecutor, Listener {
         }.runTaskTimer(TestPlugin.getPlugin(TestPlugin.class), 0, 1);
     }
 
+    // prevents items being taken from spinner GUI
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         // only triggers for inventories in invs

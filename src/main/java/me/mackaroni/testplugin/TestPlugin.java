@@ -17,12 +17,13 @@ public final class TestPlugin extends JavaPlugin {
         // feed command (working hoverables and 60 sec cd timer)
         Objects.requireNonNull(getCommand("feed")).setExecutor(new Feed());
         // gamble command (uses a lotto spinner/ need more polish)
-        Objects.requireNonNull(getCommand("gamble")).setExecutor(new Gamble());
-        getServer().getPluginManager().registerEvents(new Gamble(), this);
+        Gamble gamble = new Gamble();
+        Objects.requireNonNull(getCommand("gamble")).setExecutor(gamble);
+        getServer().getPluginManager().registerEvents(gamble, this);
     }
 
     @Override
     public void onDisable() {
-
+        // Null
     }
 }
