@@ -13,6 +13,8 @@ public class JoinLeaveListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        // stops default player join message
+        event.joinMessage(null);
         Player sender = event.getPlayer();
         String playerName = sender.getName();
         int ping = sender.getPing();
@@ -21,7 +23,7 @@ public class JoinLeaveListener implements Listener {
         final Component footer = Component.text("Ping | "+ping);
         sender.sendPlayerListHeaderAndFooter(header, footer);
         // creates a different global join message to all other players
-        Component globalMessage = Component.text("+"+playerName)
+        Component globalMessage = Component.text("[+]"+playerName)
                 .color(NamedTextColor.GREEN);
         // sends globalMessage to all online players
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -46,7 +48,7 @@ public class JoinLeaveListener implements Listener {
     public void onPlayerLeave(PlayerQuitEvent event) {
         String playerName = event.getPlayer().getName();
         // creates a leave message for all players
-        Component leaveMessage = Component.text("-"+playerName)
+        Component leaveMessage = Component.text("[-]"+playerName)
                 .color(NamedTextColor.RED);
         // sends leaveMessage to all online players
         for (Player player : Bukkit.getOnlinePlayers()) {
