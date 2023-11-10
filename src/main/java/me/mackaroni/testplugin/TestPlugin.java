@@ -37,7 +37,7 @@ public final class TestPlugin extends JavaPlugin {
         rpgItemKey = new NamespacedKey(this, "rpg-item-key");
         customItemMap = new HashMap<>();
         registerItems(new FlightStick());
-        registerListeners(new CustomItemHandler());
+        registerListeners(new CustomItemHandler(), new DisplayDamage());
     }
 
     // registers each customItem in the hash map

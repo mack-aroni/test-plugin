@@ -13,6 +13,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class CustomItemHandler implements Listener {
 
+    // gives flightstick on player join (instead of using a command)
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.getPlayer().getInventory().addItem(TestPlugin.customItemMap.get("FlightStick").getItem());
@@ -23,16 +24,19 @@ public class CustomItemHandler implements Listener {
         Player player = event.getPlayer();
         ItemStack heldItem = player.getInventory().getItemInMainHand();
 
-        // checks if it's a custom item on lclick
-        if (event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
-            CustomItem customItem = TestPlugin.customItemMap.get(getItemId(heldItem));
-            customItem.handleLeftClick(player, heldItem, event);
-        }
+        // checks if it's a custom item
+        if (isCustomItem(heldItem)) {
+            // handles actions on lclick
+            if (event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+                CustomItem customItem = TestPlugin.customItemMap.get(getItemId(heldItem));
+                customItem.handleLeftClick(player, heldItem, event);
+            }
 
-        // checks if it's a custom item on rclick
-        if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-            CustomItem customItem = TestPlugin.customItemMap.get(getItemId(heldItem));
-            customItem.handleRightClick(player, heldItem, event);
+            // handles actions on rclick
+            if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+                CustomItem customItem = TestPlugin.customItemMap.get(getItemId(heldItem));
+                customItem.handleRightClick(player, heldItem, event);
+            }
         }
 
     }
