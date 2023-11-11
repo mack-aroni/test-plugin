@@ -13,28 +13,32 @@ public class JoinLeaveListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        // stops default player join message
-        event.joinMessage(null);
-        Player sender = event.getPlayer();
-        String playerName = sender.getName();
-        int ping = sender.getPing();
-        // custom tab header and footer(which shows the players ping)
-        final Component header = Component.text("My Cool Server", NamedTextColor.BLUE);
+        Player player = event.getPlayer();
+        String playerName = player.getName();
+
+        int ping = player.getPing();
+        // custom tab header and footer(which shows the players ping to the server)
+        final Component header = Component.text("TEST SERVER", NamedTextColor.BLUE);
         final Component footer = Component.text("Ping | "+ping);
-        sender.sendPlayerListHeaderAndFooter(header, footer);
+        player.sendPlayerListHeaderAndFooter(header, footer);
+
         // creates a different global join message to all other players
         Component globalMessage = Component.text("[+]"+playerName)
                 .color(NamedTextColor.GREEN);
-        // sends globalMessage to all online players
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            // only send globalMessage to all -other- players
-            // if statement blocked out for debug reasons
-            //if (!player.getUniqueId().equals(sender.getUniqueId())) {
-                player.sendMessage(globalMessage);
-            //}
+        // replaces default joinMessage with globalMessage
+        event.joinMessage(globalMessage);
+
+        String x = "";
+        // joinMessage logic for first time/returning player
+        if (player.hasPlayedBefore()) {
+            x = "back, ";
+        }
+        else {
+            x = "to the server, ";
         }
         // creates a custom join message for the joining player
-        Component joinMessage = Component.text("Welcome to the server, ")
+        Component joinMessage = Component.text("Welcome ")
+                .append(Component.text(x))
                 .color(NamedTextColor.GREEN)
                 .append(Component.text(playerName)
                         .color(NamedTextColor.GOLD))
