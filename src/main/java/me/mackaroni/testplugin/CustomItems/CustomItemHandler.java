@@ -16,7 +16,21 @@ public class CustomItemHandler implements Listener {
     // gives flightstick on player join (instead of using a command)
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        event.getPlayer().getInventory().addItem(TestPlugin.customItemMap.get("FlightStick").getItem());
+        Player player = event.getPlayer();
+        ItemStack item1 = TestPlugin.customItemMap.get("FlightStick").getItem();
+        if (!isItemInInventory(player, item1)) {
+            event.getPlayer().getInventory().addItem(item1);
+        }
+    }
+
+    private boolean isItemInInventory(Player player, ItemStack item) {
+        // checks inventory for item
+        for (ItemStack stack : player.getInventory().getContents()) {
+            if (stack != null && stack.isSimilar(item)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
