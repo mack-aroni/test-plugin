@@ -29,7 +29,7 @@ public class JoinLeaveListener implements Listener {
         event.joinMessage(globalMessage);
 
         String x = "";
-        // joinMessage logic for first time/returning player
+        // joinMessage logic for first time / returning player
         if (player.hasPlayedBefore()) {
             x = "back, ";
         }

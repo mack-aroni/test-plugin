@@ -29,7 +29,7 @@ public final class TestPlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new JoinLeaveListener(), this);
         // feed command (working hoverables and 60 sec cd timer)
         Objects.requireNonNull(getCommand("feed")).setExecutor(new Feed());
-        // gamble command (uses a lotto spinner/ need more polish)
+        // gamble command (uses a lotto spinner / need more polish)
         Gamble gamble = new Gamble();
         Objects.requireNonNull(getCommand("gamble")).setExecutor(gamble);
         Bukkit.getPluginManager().registerEvents(gamble, this);
